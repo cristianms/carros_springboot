@@ -61,12 +61,22 @@ public class CarroController {
 
     /**
      * Retorna o objeto carro atualizado
-     * @param carro Objeto de dados para ser persistido no banco de dados
+     * @param id Identificador do registro a ser atualizado
      * @return Carro
      */
     @PutMapping("/{id}")
     public Carro put(@PathVariable("id") Long id, @RequestBody Carro carro) {
         return service.update(id, carro);
+    }
+
+    /**
+     * Retorna o id do objeto excluído
+     * @param id Identificador do registro a ser excluído
+     * @return Long
+     */
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable("id") Long id) {
+        return service.delete(id);
     }
 
 }

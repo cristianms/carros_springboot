@@ -14,6 +14,7 @@ public class CarroService {
 
     /**
      * Retorna a lista de carros completa do banco de dados
+     *
      * @return Iterable<Carro>
      */
     public Iterable<Carro> getCarros() {
@@ -22,6 +23,7 @@ public class CarroService {
 
     /**
      * Retorna o carro referente ao id recebido
+     *
      * @param id Identificador do carro
      * @return Carro
      */
@@ -31,6 +33,7 @@ public class CarroService {
 
     /**
      * Retorna a lista de carros filtrando por tipo
+     *
      * @param tipo Tipo do carro
      * @return Iterable<Carro>
      */
@@ -38,6 +41,12 @@ public class CarroService {
         return rep.findByTipo(tipo);
     }
 
+    /**
+     * Retorna o objeto carro inserido no banco de dados
+     *
+     * @param carro Objeto a ser inserido
+     * @return Carro
+     */
     public Carro insert(Carro carro) {
         // Para prosseguir o objeto carro recebido não pode ser nulo
         Assert.notNull(carro, "Não foi possível inserir o registro");
@@ -47,8 +56,15 @@ public class CarroService {
         return rep.save(carro);
     }
 
+    /**
+     * Retorna o objeto carro inserido no banco de dados
+     *
+     * @param id        Identificador do objeto
+     * @param carroPost Objeto com os dados para atualizar o registro
+     * @return Carro
+     */
     public Carro update(Long id, Carro carroPost) {
-        // Verifica se i id é nulo
+        // Verifica se o id é nulo
         Assert.notNull(id, "Não foi possível inserir o registro");
         // Busca registro no banco de dados
         return getCarroById(id).map(carroDb -> {
@@ -58,5 +74,21 @@ public class CarroService {
             // Persiste no banco
             return rep.save(carroDb);
         }).orElseThrow(() -> new RuntimeException("Não foi possível atualizar o registro"));
+    }
+
+    /**
+     * Retorna o id o registro excluído
+     * @param id Identificador do registro a ser excluído
+     * @return Long
+     */
+    public Long delete(Long id) {
+        // Verifica se o id é nulo
+        Assert.notNull(id, "Não foi possível deletar o registro");
+        // Busca registro no banco de dados
+        return getCarroById(id).map(carroDb -> {
+            // Persiste no banco
+            rep.delete(carroDb);
+            return id;
+        }).orElseThrow(() -> new RuntimeException("Não foi possível deletar o registro"));
     }
 }
