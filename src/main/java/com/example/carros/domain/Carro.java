@@ -15,6 +15,8 @@ public class Carro {
 
     private String nome;
 
+    private String tipo;
+
     /**
      * Construtor padrão necessário para o Springboot
      */
@@ -45,5 +47,13 @@ public class Carro {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }
