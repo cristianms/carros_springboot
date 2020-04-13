@@ -1,10 +1,13 @@
 package com.example.carros.domain;
 
+import com.example.carros.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarroService {
@@ -15,10 +18,11 @@ public class CarroService {
     /**
      * Retorna a lista de carros completa do banco de dados
      *
-     * @return Iterable<Carro>
+     * @return List<CarroDTO>
      */
-    public Iterable<Carro> getCarros() {
-        return this.rep.findAll();
+    public List<CarroDTO> getCarros() {
+        // Recebe uma lista de carros List<Carro> e converte o  para um List<CarroDTO>
+        return this.rep.findAll().stream().map(CarroDTO::create).collect(Collectors.toList());
     }
 
     /**
@@ -27,18 +31,19 @@ public class CarroService {
      * @param id Identificador do carro
      * @return Carro
      */
-    public Optional<Carro> getCarroById(Long id) {
-        return rep.findById(id);
+    public Optional<CarroDTO> getCarroById(Long id) {
+        return rep.findById(id).map(CarroDTO::create);
     }
 
     /**
      * Retorna a lista de carros filtrando por tipo
      *
      * @param tipo Tipo do carro
-     * @return Iterable<Carro>
+     * @return List<Carro>
      */
-    public Iterable<Carro> getCarrosByTipo(String tipo) {
-        return rep.findByTipo(tipo);
+    public List<CarroDTO> getCarrosByTipo(String tipo) {
+        // Recebe uma lista de carros List<Carro> e converte o  para um List<CarroDTO>
+        return rep.findByTipo(tipo).stream().map(CarroDTO::create).collect(Collectors.toList());
     }
 
     /**
@@ -47,13 +52,13 @@ public class CarroService {
      * @param carro Objeto a ser inserido
      * @return Carro
      */
-    public Carro insert(Carro carro) {
+    public CarroDTO insert(Carro carro) {
         // Para prosseguir o objeto carro recebido não pode ser nulo
         Assert.notNull(carro, "Não foi possível inserir o registro");
         // Para prosseguir o carro.getId() recebido DEVE ser nulo
         Assert.isNull(carro.getId(), "Para atualizar o registro deve ser utilizado o método PUT");
-        // Persiste no banco
-        return rep.save(carro);
+        // Persiste no banco e converte o resultado para um CarroDTO
+        return CarroDTO.create(rep.save(carro));
     }
 
     /**
@@ -63,32 +68,34 @@ public class CarroService {
      * @param carroPost Objeto com os dados para atualizar o registro
      * @return Carro
      */
-    public Carro update(Long id, Carro carroPost) {
+    public CarroDTO update(Long id, Carro carroPost) {
         // Verifica se o id é nulo
         Assert.notNull(id, "Não foi possível inserir o registro");
         // Busca registro no banco de dados
-        return getCarroById(id).map(carroDb -> {
+        return rep.findById(id).map(carroDb -> {
             // Seta valores
             carroDb.setNome(carroPost.getNome());
             carroDb.setTipo(carroPost.getTipo());
-            // Persiste no banco
-            return rep.save(carroDb);
+            // Persiste no banco e retorna o objeto Carro convertido em CarroDTO
+            return CarroDTO.create(rep.save(carroDb));
         }).orElseThrow(() -> new RuntimeException("Não foi possível atualizar o registro"));
     }
 
     /**
      * Retorna o id o registro excluído
+     *
      * @param id Identificador do registro a ser excluído
      * @return Long
      */
-    public Long delete(Long id) {
+    public boolean delete(Long id) {
         // Verifica se o id é nulo
         Assert.notNull(id, "Não foi possível deletar o registro");
         // Busca registro no banco de dados
-        return getCarroById(id).map(carroDb -> {
+        if (getCarroById(id).isPresent()) {
             // Persiste no banco
-            rep.delete(carroDb);
-            return id;
-        }).orElseThrow(() -> new RuntimeException("Não foi possível deletar o registro"));
+            rep.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

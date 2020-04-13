@@ -1,12 +1,16 @@
 package com.example.carros.domain;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CarroRepository extends CrudRepository<Carro, Long> {
+import java.util.List;
+
+public interface CarroRepository extends JpaRepository<Carro, Long> {
+
     /**
      * Retorna a lista de carros filtrando por tipo
+     *
      * @param tipo Tipo do carro
-     * @return Iterable<Carro>
+     * @return List<Carro>
      */
-    Iterable<Carro> findByTipo(String tipo);
+    List<Carro> findByTipo(String tipo);
 }

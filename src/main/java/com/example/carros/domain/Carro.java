@@ -1,11 +1,17 @@
 package com.example.carros.domain;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+/**
+ * Classe que representa a entidade Carro
+ */
+@Entity // Anotação necessária para que o Spring identifique essa classe como uma entidade
+@Data // Anotação necessária que os métodos básicos do objeto sejam implementados em tempo de execução
 public class Carro {
 
     @Id
@@ -17,43 +23,4 @@ public class Carro {
 
     private String tipo;
 
-    /**
-     * Construtor padrão necessário para o Springboot
-     */
-    public Carro() {
-    }
-
-    /**
-     * Construtor
-     * @param id Identificador do carro
-     * @param nome Nome do carro
-     */
-    public Carro(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 }
