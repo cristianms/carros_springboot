@@ -47,6 +47,8 @@ public class ExceptionConfig extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ExceptionError("Operação não permitida"), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+
+
 }
 
 /**
