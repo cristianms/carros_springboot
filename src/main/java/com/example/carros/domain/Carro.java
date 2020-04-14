@@ -2,10 +2,7 @@ package com.example.carros.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Classe que representa a entidade Carro
@@ -21,8 +18,13 @@ public class Carro {
     private String nome;
     private String tipo;
     private String descricao;
+
+    @Column(name = "url_foto")
     private String urlFoto;
+
+    @Column(name = "url_video")
     private String urlVideo;
+
     private String latitude;
     private String longitude;
 

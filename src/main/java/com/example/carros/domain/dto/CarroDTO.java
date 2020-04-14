@@ -11,9 +11,7 @@ import org.modelmapper.ModelMapper;
 public class CarroDTO {
 
     private Long id;
-
     private String nome;
-
     private String tipo;
 
     /**

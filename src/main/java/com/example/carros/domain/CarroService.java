@@ -22,7 +22,9 @@ public class CarroService {
      */
     public List<CarroDTO> getCarros() {
         // Recebe uma lista de carros List<Carro> e converte o  para um List<CarroDTO>
-        return this.rep.findAll().stream().map(CarroDTO::create).collect(Collectors.toList());
+        this.rep.findAll();
+        List<CarroDTO> list = this.rep.findAll().stream().map(CarroDTO::create).collect(Collectors.toList());
+        return list;
     }
 
     /**
