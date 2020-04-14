@@ -1,5 +1,6 @@
 package com.example.carros;
 
+import com.example.carros.api.exception.ObjectNotFoundException;
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.CarroService;
 import com.example.carros.domain.dto.CarroDTO;
@@ -36,18 +37,20 @@ class CarrosServiceTest {
         assertNotNull(carroDTOinserido);
         assertNotNull(carroDTOinserido.getId());
         // Busca o registro persistido
-        Optional<CarroDTO> optional = service.getCarroById(carroDTOinserido.getId());
-        // Testa se encontrou o registro inserido
-        assertTrue(optional.isPresent());
-        // Obtém o objeto CarroDTO que estava no Optional
-        CarroDTO carroDTOConsulta = optional.get();
+        CarroDTO carroDTOConsulta = service.getCarroById(carroDTOinserido.getId());
         // testa se nome e tipo são iguais
         assertEquals(carroDTOinserido.getNome(), carroDTOConsulta.getNome());
         assertEquals(carroDTOinserido.getTipo(), carroDTOConsulta.getTipo());
         // Deleta registro
         service.delete(carroDTOinserido.getId());
         // Testa se o registro foi de fato excluído
-        assertFalse(service.getCarroById(carroDTOinserido.getId()).isPresent());
+        try {
+            assertNull(service.getCarroById(carroDTOinserido.getId()));
+            // Se for nulo tem algo errado, deveria lançar exception
+            fail("O carro não foi excluído. Verifique os testes");
+        } catch (ObjectNotFoundException e) {
+            // Ok, a exception é esperada pois não existe registro para retorno
+        }
     }
 
     /**
@@ -67,11 +70,7 @@ class CarrosServiceTest {
     @Test
     void testGet() {
         // Busca o registro id 11
-        Optional<CarroDTO> carro = service.getCarroById(11L);
-        // Testa se encontrou resultado
-        assertTrue(carro.isPresent());
-        // Obtém DTO contido no resultado
-        CarroDTO carroDTO = carro.get();
+        CarroDTO carroDTO = service.getCarroById(11L);
         // Testa se o nome bate com o esperado
         assertEquals("Ferrari FF", carroDTO.getNome());
     }

@@ -47,9 +47,7 @@ public class CarroController {
     @ApiOperation(value = "Obter o carro a partir do id") // Documentação para o Swagger
     @GetMapping("/{id}")
     public ResponseEntity getId(@PathVariable("id") Long id) {
-        return service.getCarroById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(service.getCarroById(id));
     }
 
     /**

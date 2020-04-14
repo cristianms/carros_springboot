@@ -1,12 +1,12 @@
 package com.example.carros.domain;
 
+import com.example.carros.api.exception.ObjectNotFoundException;
 import com.example.carros.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,8 +33,8 @@ public class CarroService {
      * @param id Identificador do carro
      * @return Carro
      */
-    public Optional<CarroDTO> getCarroById(Long id) {
-        return rep.findById(id).map(CarroDTO::create);
+    public CarroDTO getCarroById(Long id) {
+        return rep.findById(id).map(CarroDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
     }
 
     /**
@@ -92,12 +92,8 @@ public class CarroService {
     public boolean delete(Long id) {
         // Verifica se o id é nulo
         Assert.notNull(id, "Não foi possível deletar o registro");
-        // Busca registro no banco de dados
-        if (getCarroById(id).isPresent()) {
-            // Persiste no banco
-            rep.deleteById(id);
-            return true;
-        }
-        return false;
+        // Persiste no banco
+        rep.deleteById(id);
+        return true;
     }
 }
