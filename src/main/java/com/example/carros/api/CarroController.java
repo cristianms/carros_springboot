@@ -74,12 +74,12 @@ public class CarroController {
     @ApiOperation(value = "Inserir um carro") // Documentação para o Swagger
     @PostMapping
     public ResponseEntity post(@RequestBody Carro carro) {
-        try {
-            service.insert(carro);
-            return ResponseEntity.created(getUri(carro.getId())).build();
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().build();
-        }
+        // Insere o carro e obtém o objeto CarroDTO de retorno
+        CarroDTO carroDTO = service.insert(carro);
+        // Busca a URI do registro inserido
+        URI location = getUri(carroDTO.getId());
+        // Retorna OK com a location no header
+        return ResponseEntity.created(location).build();
     }
 
     /**
@@ -115,7 +115,8 @@ public class CarroController {
     @ApiOperation(value = "Excluir um carro") // Documentação para o Swagger
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
-        return service.delete(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        service.delete(id);
+        return ResponseEntity.ok().build();
     }
 
 }
