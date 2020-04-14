@@ -18,9 +18,12 @@ public class Carro {
     //@GeneratedValue(strategy = GenerationType.AUTO) // Para auto increment de outros bancos
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Para auto increment do MySQL
     private Long id;
-
     private String nome;
-
     private String tipo;
+    private String descricao;
+    private String urlFoto;
+    private String urlVideo;
+    private String latitude;
+    private String longitude;
 
 }
