@@ -31,20 +31,16 @@ public class CarrosAPITest {
     protected TestRestTemplate rest;
 
     /**
-     * Dependência CarrosService
-     */
-    @Autowired
-    private CarroService service;
-
-    /**
      * Método que simular uma requisição para uma URL para obter um carro
      *
      * @param url URL para onde se deseja fazer a chamada
      * @return ResponseEntity
      */
     private ResponseEntity<CarroDTO> getCarro(String url) {
-        // return rest.withBasicAuth("user", "123").getForEntity(url, CarroDTO.class);
-        return rest.getForEntity(url, CarroDTO.class);
+        // Executa a chamada sem autenticação
+        // return rest.getForEntity(url, CarroDTO.class);
+        // Executa a chamada com autenticação
+        return rest.withBasicAuth("user", "123").getForEntity(url, CarroDTO.class);
     }
 
     /**
@@ -54,8 +50,10 @@ public class CarrosAPITest {
      * @return ResponseEntity<List < CarroDTO>>
      */
     private ResponseEntity<List<CarroDTO>> getCarros(String url) {
-        // return rest.withBasicAuth("user", "123").exchange(
-        return rest.exchange(
+        // Executa a chamada sem autenticação
+        // return rest.exchange(
+        // Executa a chamada com autenticação
+        return rest.withBasicAuth("user", "123").exchange(
                 url,
                 HttpMethod.GET,
                 null,
@@ -69,8 +67,10 @@ public class CarrosAPITest {
         carro.setNome("Porshe");
         carro.setTipo("esportivos");
         // Insert
-        // ResponseEntity response = rest.withBasicAuth("admin", "123").postForEntity("/api/v1/carros", carro, null);
-        ResponseEntity response = rest.postForEntity("/api/v1/carros", carro, null);
+        // Executa a chamada sem autenticação
+        // ResponseEntity response = rest.postForEntity("/api/v1/carros", carro, null);
+        // Executa a chamada com autenticação
+        ResponseEntity response = rest.withBasicAuth("admin", "123").postForEntity("/api/v1/carros", carro, null);
         System.out.println(response);
         // Verifica se criou
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -83,7 +83,7 @@ public class CarrosAPITest {
         assertEquals("esportivos", c.getTipo());
 
         // Deletar o objeto
-        rest.withBasicAuth("user", "123").delete(location);
+        rest.withBasicAuth("user", "123").withBasicAuth("user", "123").delete(location);
 
         // Verificar se deletou
         assertEquals(HttpStatus.NOT_FOUND, getCarro(location).getStatusCode());
