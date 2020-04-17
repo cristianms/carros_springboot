@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class UploadOutput {
+public class UploadOutput {
     private String url;
 }

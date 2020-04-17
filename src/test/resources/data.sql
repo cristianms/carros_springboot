@@ -34,7 +34,7 @@ insert into Carro (nome,descricao,url_foto,url_video,latitude,longitude,tipo) VA
 insert into role(id,nome) values (1, 'ROLE_USER');
 insert into role(id,nome) values (2, 'ROLE_ADMIN');
 
-insert into user(id,nome,email,login,senha) values (1,'Ricardo Lecheta','rlecheta@gmail.com','rlecheta','$2a$10$HKveMsPlst41Ie2LQgpijO691lUtZ8cLfcliAO1DD9TtZxEpaEoJe');
+insert into user(id,nome,email,login,senha) values (1,'Cristian de Mellos','cristian.ms@hotmail.com','cristian','$2a$10$HKveMsPlst41Ie2LQgpijO691lUtZ8cLfcliAO1DD9TtZxEpaEoJe');
 insert into user(id,nome,email,login,senha) values (2,'Admin','admin@gmail.com','admin','$2a$10$HKveMsPlst41Ie2LQgpijO691lUtZ8cLfcliAO1DD9TtZxEpaEoJe');
 insert into user(id,nome,email,login,senha) values (3,'User','user@gmail.com','user','$2a$10$HKveMsPlst41Ie2LQgpijO691lUtZ8cLfcliAO1DD9TtZxEpaEoJe');
 
