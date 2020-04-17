@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Método responsável por ligar a autenticação em memória
+     * Método responsável por validar os dados de acesso e autenticar o usuário
      *
      * @param auth
      * @throws Exception
@@ -52,12 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-// Removido pois não será mais feita validação em memória, apenas através da implementação UserDetailsService
-//        auth
-//                .inMemoryAuthentication().passwordEncoder(encoder)
-//                .withUser("user").password(encoder.encode("user")).roles("USER")
-//                .and()
-//                .withUser("admin").password(encoder.encode("admin")).roles("USER", "ADMIN");
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
     }
 }
